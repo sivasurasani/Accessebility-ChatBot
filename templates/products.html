@@ -9,7 +9,22 @@
         <span class="badge badge-secondary">{{ product['id'] }}</span>
         <span class="badge badge-secondary">{{ product['author'] }}</span>
         <span class="badge badge-secondary">{{ product['created'] }}</span>
-        <span> <button type="submit" class="btn btn-warning" href="/delete/{{ product['id'] }}">Delete</button></span>
+        <!--<span> <button type="submit" class="btn btn-warning" href="/deleteProduct/{{ product['id'] }}">Delete</button></span> -->
+        <div float:"right">
+        <span>
+        <form action="{{ url_for('deleteProduct') }}" method=post class=delete-product>
+          <input type=hidden value="{{ product.id }}" name=product_to_delete />
+          <input type=submit value="Delete" class="btn btn-warning"/>
+        </form>
+        </span>
+        <br>
+        <span>
+        <form action="{{ url_for('updateProduct') }}" method=post class=update-product>
+          <input type=hidden value="{{ product.id }}" name=product_to_update />
+          <input type=submit value="Update" class="btn btn-info"/>
+        </form>
+        </span>
+        </div>
         <hr>
     {% endfor %}
 {% endblock %}
