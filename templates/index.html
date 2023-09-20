@@ -1,12 +1,10 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-    <h1>{% block title %} Welcome to ChatBot {% endblock %}</h1>
-    {% for product in products %}
-        <a href="#">
-            <h2>{{ product['title'] }}</h2>
-        </a>
-        <span class="badge badge-primary">{{ product['created'] }}</span>
-        <hr>
-    {% endfor %}
+<h1 class="title">
+  Flask Login Example
+</h1>
+<h2 class="subtitle">
+  Easy authentication and authorization in Flask.
+</h2>
 {% endblock %}
