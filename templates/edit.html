@@ -1,0 +1,25 @@
+{% extends 'productLayout.html' %}
+
+{% block content %}
+<h1>{% block title %} Edit "{{ product['title'] }}" {% endblock %}</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" placeholder="Product title"
+               class="form-control"
+               value="{{ product['title'] }}">
+        </input>
+    </div>
+
+    <div class="form-group">
+        <label for="author">Author</label>
+        <textarea name="author" placeholder="Product author"
+                  class="form-control">{{ request.form['content'] or product['content'] }}</textarea>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+<hr>
+{% endblock %}
