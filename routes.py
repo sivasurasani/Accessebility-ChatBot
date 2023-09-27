@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from werkzeug.exceptions import abort
 import json
-# import excel_read
+from excel_read import chatbot_response_1
 SESSION_TYPE = 'memcache'
 
 app = Flask(__name__)
@@ -242,15 +242,14 @@ def updateProduct():
 #    elif request.method == 'GET':
 #        return render_template('home.html')
 
-@app.route("/get-response/<input>")
-def get_response(input):
-    with open('chatbot_data.json', 'r') as json_file:
-       chatbot_dict = json.load(json_file)
-    user_data  = {
-        "response" : chatbot_dict[input]
-    }
-    # extra = request.args.get("extra")
+@app.route("/get-response",methods=['GET', 'POST'])
+def get_response():
+    input = request.json
+    user_input = input['input']
+    user_data =  chatbot_response_1(user_input)
     return jsonify(user_data), 200
+
+
 if __name__  == "__main__":
     app.secret_key = 'super secret key'
     app.config["SECRET_KEY"] = 'super secret key'

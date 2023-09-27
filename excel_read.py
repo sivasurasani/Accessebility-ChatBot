@@ -11,17 +11,21 @@
 
 import json
 from flask import request
-# Load the chatbot_dict from the JSON file
 with open('chatbot_data.json', 'r') as json_file:
     chatbot_dict = json.load(json_file)
 
-user_input = "how are you"
-user_input = user_input.lower()
-user_input(user_input)
-def user_input(user_input):
+# user_input = user_input.lower() 
+def chatbot_response_1(user_input):
     if user_input in chatbot_dict:
         response = chatbot_dict[user_input]
-        return response
+        output = {
+            "response" : response
+        }
+        return output
     else:
-        return "Chatbot: I'm sorry, I don't understand your query."
+        output = {
+            "response" : "sorry! I don't understand that"
+        }
+        return output
+
 
