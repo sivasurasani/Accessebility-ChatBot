@@ -7,6 +7,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from werkzeug.exceptions import abort
 import json
 from excel_read import chatbot_response_1
+from train_excel import chatbot_response_v2
 SESSION_TYPE = 'memcache'
 
 app = Flask(__name__)
@@ -246,7 +247,7 @@ def updateProduct():
 def get_response():
     input = request.json
     user_input = input['input']
-    user_data =  chatbot_response_1(user_input)
+    user_data =  chatbot_response_v2(user_input)
     return jsonify(user_data), 200
 
 
