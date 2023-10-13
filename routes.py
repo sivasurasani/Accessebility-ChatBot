@@ -1,11 +1,14 @@
-#import tensorflow as tf
+import tensorflow as tf
 import sqlite3
 from flask import Flask, request, jsonify, render_template, url_for, flash, redirect
 #from train import trainModel
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from werkzeug.exceptions import abort
-
+import json
+from excel_read import chatbot_response_1
+from chatbot_v3 import chatbot_response_v3
+from intent import chat_bot_response_v4
 SESSION_TYPE = 'memcache'
 
 app = Flask(__name__)
@@ -40,8 +43,8 @@ def chatbot_response(user_input):
 
    return "I don't understand that."
 
-#while True:
-    #user_input = input("You: ")
+# while True:
+#    user_input = input("You: ")
 #    if user_input.lower() == 'exit':
 #        break
 #    response = chatbot_response(user_input.lower())
@@ -50,7 +53,7 @@ def chatbot_response(user_input):
 
 
 
-#sess = Session()
+# sess = Session()
 
 nextId = 0
 
@@ -81,6 +84,8 @@ def get_products(id):
 
 
 @app.route("/")
+# def excel_read
+
 def index():
     return render_template('index.html')
 
@@ -239,6 +244,19 @@ def updateProduct():
 #    elif request.method == 'GET':
 #        return render_template('home.html')
 
+@app.route("/get-response",methods=['GET', 'POST'])
+def get_response():
+    input = request.json
+    user_input = input['input']
+    user_data =  chatbot_response_v3(user_input)
+    return jsonify(user_data), 200
+
+@app.route("/get-intent-response",methods=['GET', 'POST'])
+def get_intent_response():
+    input = request.json
+    user_input = input['input']
+    user_data =  chat_bot_response_v4(user_input)
+    return jsonify(user_data), 200
 if __name__  == "__main__":
     app.secret_key = 'super secret key'
     app.config["SECRET_KEY"] = 'super secret key'
