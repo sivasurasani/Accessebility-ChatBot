@@ -149,23 +149,27 @@
                 //var MyData = JSON.stringify((inputString).serializeJSON());
 
                 //console.log("MyData"+ MyData);
+                const input = {input : message};
+                print(input);
                 $.ajax({
                     type: "POST",
                     url: "/get-response",
-                    //data: $(this).serialize(),
-                    //console.log("Before stringify");
-                    data: {"input" : "hello"},
+                    headers :{
+                        "Content-Type" : "application/json"
+                    },
+                    data: JSON.stringify(input),
                     //console.log("After stringify");
                     success: function(response) {
+                        console.log(response);
                         $('#messageText').val('');
-                        console.log("Response:"+response+ +" "+$('#messageText').val(''));
-                        var answer = response.answer;
+                        // console.log("Response:"+response+ +" "+$('#messageText').val(''));
+                        var answer = response.response;
                         const chatPanel = document.getElementById("chatPanel");
                         $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "color : white" class="media-body">' + answer + '<hr/></div></div></div></li>');
-                        $(".fixed-panel").stop().animate({ scrollTop: $(".fixed-panel")[0].scrollHeight}, 1000);
+                        // $(".fixed-panel").stop().animate({ scrollTop: $(".fixed-panel")[0].scrollHeight}, 1000);
 
-                        msg.text = answer;
-                        speechSynthesis.speak(msg);
+                        // msg.text = answer;
+                        // speechSynthesis.speak(msg);
                     },
                     error: function(error) {
                         console.log(error);
