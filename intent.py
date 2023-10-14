@@ -10,7 +10,7 @@ model_name = 'bert-base-uncased'
 tokenizer = BertTokenizer.from_pretrained(model_name)
 model = BertForSequenceClassification.from_pretrained(model_name)
 
-data = pd.read_excel("intent_data.xlsx")
+data = pd.read_excel("intent_500.xlsx")
 tokenized_questions = [tokenizer(question, return_tensors="pt", padding=True, truncation=True, max_length=64)['input_ids'] for question in data['Questions']]
 
 def chat_bot_response_v4(user_input):
