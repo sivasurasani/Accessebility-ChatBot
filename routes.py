@@ -101,6 +101,10 @@ def home():
 def about():
     return render_template('about.html')
 
+@app.route("/chatbot")
+def chatbot():
+    return render_template('chatbot.html')
+
 @app.route("/products")
 def products():
     conn = get_db_connection()
@@ -246,7 +250,9 @@ def updateProduct():
 
 @app.route("/get-response",methods=['GET', 'POST'])
 def get_response():
+    print("hello")
     input = request.json
+    print(input)
     user_input = input['input']
     user_data =  chatbot_response_v3(user_input)
     return jsonify(user_data), 200
@@ -261,4 +267,5 @@ if __name__  == "__main__":
     app.secret_key = 'super secret key'
     app.config["SECRET_KEY"] = 'super secret key'
     #sess.init_app(app)
-    app.run(debug=True)
+    #app.run(debug=True)
+    app.run(port=8005, debug=True)
