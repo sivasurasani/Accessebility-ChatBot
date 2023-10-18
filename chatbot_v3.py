@@ -15,7 +15,8 @@ def chatbot_response_v3(user_input):
     cosine_similarities = cosine_similarity(user_vector, tfidf_matrix)
     best_match_index = cosine_similarities.argmax()
     response = data.loc[best_match_index, 'Answers']
+    response = response.split(":")
     output = {
-            "response" : response
+            "response" : response[1]
         }
     return output
