@@ -1,1 +1,10 @@
-pip install flask
+flask
+tensorflow
+keras
+sklearn
+pandas
+transformers
+torch
+sentence_transformers
+numpy
+abort
