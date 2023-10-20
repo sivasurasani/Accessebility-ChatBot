@@ -29,7 +29,9 @@ def chatbot_response_v3(user_input):
         best_match_index = cosine_similarities.argmax()
         matching_percentage = cosine_similarities[0][best_match_index] * 100
         response = data.loc[best_match_index, 'Answers']
-        # response = response.split(":")
+        if(':' in response):
+            response_split = response.split(":", 1)
+            response = response_split[1]
         if(matching_percentage > 0.5):
             output = {
                 "response" : response
