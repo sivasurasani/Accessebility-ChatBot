@@ -1,57 +1,13 @@
-import tensorflow as tf
 import sqlite3
 from flask import Flask, request, jsonify, render_template, url_for, flash, redirect
-#from train import trainModel
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
 from werkzeug.exceptions import abort
 import json
 from excel_read import chatbot_response_1
 from chatbot_v3 import chatbot_response_v3
-from intent import chat_bot_response_v4
+from intent import chat_bot_response_v5
 SESSION_TYPE = 'memcache'
 
 app = Flask(__name__)
-
-responses = {
-    "hello": "Hi there! How can I assist you?",
-    "how are you": "I'm just a machine, but thanks for asking!",
-    "bye": "Goodbye! Have a great day.",
-    "how" : "this is the second version of how"
-}
-
-tokenizer = Tokenizer()
-tokenizer.fit_on_texts(responses.keys())
-
-def chatbot_response(user_input):
-   user_input_seq = tokenizer.texts_to_sequences([user_input])[0]
-   max_similarity = 0
-   best_response = "I don't understand that."
-
-   for word, response in responses.items():
-       word_seq = tokenizer.texts_to_sequences([word])[0]
-       similarity = len(set(user_input_seq).intersection(word_seq))
-
-       if user_input == word:
-           return response
-       if similarity > max_similarity:
-           max_similarity = similarity
-           best_response = response
-
-       if max_similarity == len(user_input_seq):
-           return best_response
-
-   return "I don't understand that."
-
-# while True:
-#    user_input = input("You: ")
-#    if user_input.lower() == 'exit':
-#        break
-#    response = chatbot_response(user_input.lower())
-#    print("Chatbot:", response)
-
-
-
 
 # sess = Session()
 
@@ -100,6 +56,10 @@ def home():
 @app.route("/about")
 def about():
     return render_template('about.html')
+
+@app.route("/chatbot")
+def chatbot():
+    return render_template('chatbot.html')
 
 @app.route("/products")
 def products():
@@ -248,17 +208,29 @@ def updateProduct():
 def get_response():
     input = request.json
     user_input = input['input']
-    user_data =  chatbot_response_v3(user_input)
-    return jsonify(user_data), 200
+    if('API_KEY' in input):
+        user_token = input['API_KEY']
+    else:
+        user_output = {"msg" : "access denied"}
+        return jsonify(user_output), 200
+    if(user_token == 940543678):
+        user_data =  chatbot_response_v3(user_input) 
+        return jsonify(user_data), 200
+    else :
+        user_output = { "msg" : "api key not found"}
+        return jsonify(user_output)
+    
+
 
 @app.route("/get-intent-response",methods=['GET', 'POST'])
 def get_intent_response():
     input = request.json
     user_input = input['input']
-    user_data =  chat_bot_response_v4(user_input)
+    user_data =  chat_bot_response_v5(user_input)
     return jsonify(user_data), 200
 if __name__  == "__main__":
     app.secret_key = 'super secret key'
     app.config["SECRET_KEY"] = 'super secret key'
     #sess.init_app(app)
-    app.run(debug=True)
+    #app.run(debug=True)
+    app.run(port=8005, debug=True)
