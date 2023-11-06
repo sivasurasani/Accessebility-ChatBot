@@ -10,6 +10,7 @@ tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(data['Questions'])
 import re
 def chatbot_response_v3(user_input):
+    user_input = user_input.lower()
     user_input = re.sub(r'[!?]', '', user_input)
     if(user_input in ('hi', 'hello')):
         output = {
