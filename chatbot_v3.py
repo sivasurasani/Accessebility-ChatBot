@@ -8,18 +8,18 @@ data = data.dropna(subset=['Questions'])
 data['Questions'] = data['Questions'].str.lower()
 tfidf_vectorizer = TfidfVectorizer()
 tfidf_matrix = tfidf_vectorizer.fit_transform(data['Questions'])
-
+import re
 def chatbot_response_v3(user_input):
-    user_input = user_input.lower()
-    if(user_input in ('hi', 'hello', 'hi!', 'hello!')):
+    user_input = re.sub(r'[!?]', '', user_input)
+    if(user_input in ('hi', 'hello')):
         output = {
             "response" : 'Hello! How can I help you?'
         }
-    elif(user_input in ('how are you','how are you?')):
+    elif(user_input in ('how are you')):
         output = {
             "response" : 'Hello! I am fine! How can I help you?'
         }
-    elif(user_input in ('who are you', 'who are you?')):
+    elif(user_input in ('who are you')):
         output = {
             "response" : 'I am an accessibility chatbot and I am here to help with mobile accessibility guidelines'
         }
