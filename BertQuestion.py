@@ -6,23 +6,25 @@ df = pd.read_excel('Accessibility_500.xlsx')
 questions = df['Questions'].tolist()
 answers = df['Answers'].tolist()
 
+# Clean the questions
+cleaned_questions = []
+cleaned_answers = []
 
+for question, answer in zip(questions, answers):
+    cleaned_question = re.sub(r'(Question|Q)\s?\d+:', '', question)
+    cleaned_question = cleaned_question.replace('\n', ' ').strip()
+    cleaned_question = ' '.join(cleaned_question.split())
+    cleaned_questions.append(cleaned_question)
 
-
-
-
-
-
-
-
-
-
-
+    cleaned_answer = re.sub(r'(Answer|A)\s?\d+:', '', answer)
+    cleaned_answer = cleaned_answer.replace('\n', ' ').strip()
+    cleaned_answer = ' '.join(cleaned_answer.split())
+    cleaned_answers.append(cleaned_answer)
 
 
 formatted_data = []
-for i in range(len(questions)):
-    formatted_data.append(f"Question: {questions[i]}\nAnswer: {answers[i]}\n")
+for i in range(len(cleaned_questions)):
+    formatted_data.append(f"Question: {cleaned_questions[i]}\nAnswer: {cleaned_answers[i]}\n")
 with open("formatted_data.txt", "w", encoding="utf-8") as file:
     file.writelines(formatted_data)
 
