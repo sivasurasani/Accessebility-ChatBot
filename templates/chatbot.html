@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head lang="en">
+        <link rel="icon" href="http://www.domain.com/favicon.ico" type="image/x-icon" />
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Chatbot</title>
+        <title>Accessibility Chatbot</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
@@ -12,9 +13,27 @@
             min-height: 400px;
             max-height: 400px;
             background-color: #19313c;
-            color: white;
+            color: White;
             overflow: auto;
         }
+        .logo {
+            display: inline-block;
+            margin: 15px;
+            float: left;
+            height: 60px;
+            width: auto;
+            border-radius: 10%;
+          }
+        .nav {
+            float: right;
+            padding: 35px 20px 20px 0;
+          }
+        .menu-icon {
+            display: inline-block;
+            width: 50px;
+            height: 60px;
+            background: <a href="http://tinypic.com?ref=261kfht" target="_blank">     <img src="http://i68.tinypic.com/261kfht.jpg" border="0" alt="Image and video hosting by TinyPic"></a> center;
+          }
         .media-list {
             overflow: auto;
             clear: both;
@@ -36,7 +55,7 @@
             border-color: #0c2735;
         }
         .panel-info>.panel-heading {
-            color: white;
+            color: orange;
             background-color: #0c2735;
             border-color: #0c2735;
         }
@@ -59,12 +78,10 @@
     <body>
         <div class="container background-color: rgb(51,0,0);">
             <div class="row">
-              <!--  <h3 class="text-center"><small><strong>Artificial</strong></small><font color="white"> Intelligence!!! </font><small><strong>Here</strong></small><font color="white"> I am..</font></h3> -->
-                ​
-                <div class="col-md-4 col-md-offset-4">
+              <div>
                     <div id="chatPanel" class="panel panel-info">
                         <div class="panel-heading">
-                            <strong><span class="glyphicon glyphicon-globe"></span> Talk with Me !!!  </strong> <!-- (You: Green / ChatBot: White) -->
+                            <strong><span class="glyphicon glyphicon-globe"></span> Query Your Requests !!!  </strong> <!-- (You: Green / ChatBot: White) -->
                         </div>
                         <div class="panel-body fixed-panel">
                             <ul class="media-list">
@@ -100,11 +117,29 @@
             msg.voice = voices[0];
             msg.rate = 1;
             msg.pitch = 1;
+            var apiCal;
 
             $('#chatbot-form-btn').click(function(e) {
                 e.preventDefault();
                 $('#chatbot-form').submit();
             });
+
+          //  $('#chatbot-form-btn').click(function(){
+            //  if($.trim($('#messageText').val()) == ''){
+              //  alert('Please provide input for querying Accessibility');
+                //e.preventDefault();
+              //}
+            //});
+            $('#chatbot-form-btn').click(function(){
+                if($.trim($('#messageText').val()) == ''){
+                  alert('Please provide input for querying Accessibility');
+                  apiCal = true;
+                  console.log(apiCal);
+                }else{
+                  apiCal = false;
+                  console.log(apiCal);
+                }
+              });
             $('#chatbot-form-btn-clear').click(function(e) {
                 e.preventDefault();
                 $('#chatPanel').find('.media-list').html('');
@@ -120,7 +155,7 @@
                     $('#messageText').val(text);
                 };
                 var onFinishedListening = function () {
-                    // $('#chatbot-form-btn').click();
+                     $('#chatbot-form-btn').click();
                 };
 
                 try {
@@ -141,42 +176,55 @@
             $('#chatbot-form').submit(function(e) {
                 e.preventDefault();
                 var message = $('#messageText').val();
-                $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "text-align:right; color : #2EFE2E" class="media-body">' + message + '<hr/></div></div></div></li>');
+                        $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "text-align:right; color : #2EFE2E" class="media-body">' + message + '<hr/></div></div></div></li>');
 
-                var inputString = {input : message};
-                console.log(inputString);
-                //inputString.
-                //var MyData = JSON.stringify((inputString).serializeJSON());
-
-                //console.log("MyData"+ MyData);
-                const input = {input : message};
-                print(input);
-                $.ajax({
-                    type: "POST",
-                    url: "/get-response",
-                    headers :{
-                        "Content-Type" : "application/json"
-                    },
-                    data: JSON.stringify(input),
-                    //console.log("After stringify");
-                    success: function(response) {
-                        console.log(response);
-                        $('#messageText').val('');
-                        // console.log("Response:"+response+ +" "+$('#messageText').val(''));
-                        var answer = response.response;
-                        const chatPanel = document.getElementById("chatPanel");
-                        $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "color : white" class="media-body">' + answer + '<hr/></div></div></div></li>');
-                        // $(".fixed-panel").stop().animate({ scrollTop: $(".fixed-panel")[0].scrollHeight}, 1000);
-
-                        // msg.text = answer;
-                        // speechSynthesis.speak(msg);
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
+                        //var inputString = {input : message};
+                        //console.log(inputString);
+                        const data = {input : message,API_KEY : 940543678};
+                        //print(data);
+                        $.ajax({
+                            type: "POST",
+                            url: "/get-response",
+                            headers :{
+                                "Content-Type" : "application/json"
+                            },
+                            data: JSON.stringify(data),
+                            success: function(response) {
+                                console.log(response);
+                                $('#messageText').val('');
+                                var answer = response.response;
+                                const chatPanel = document.getElementById("chatPanel");
+                                $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "color : white" class="media-body">' + answer + '<hr/></div></div></div></li>');
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            }
+                        });
             });
         });
         </script>
+        <!--<footer>
+          <section>
+          <h3><b> Me</b></h3>
+          <p><b>@iamdpk@gmail.com</b><br><br>
+          contact me if you want to send me pictures to post on my Instagram or Twitter.</p>
+          </section>
+          <section>
+          <h3>Follow me!</h3>
+          <ul class="social">
+          <li><a href="www.online-instagram.com/user/i_see_st4irs/246253528"><img src="instagram_logo_small.png"></a></li>
+          <li><a href="https://twitter.com/i_see_st4irs"><img src="twitter.png"></a></li>
+          <li><a href="https://twitter.com/i_see_st4irs"><img src="tumblr.png"></a></li>
+          <li><a href="https://plus.google.com/wm/quevuelvamatt/.../collections"><img src="googleplus.png"></a></li>
+          <li><a href="https://www.youtube.com/channel/UCOaUXzGUZ2_1EB_-QI15WoA"><img src="youtube.png"></a></li>
+          </ul>
+          </section>
+          <section>
+          <img src="logo.jpg">
+          </section>
+          </footer>
+          <footer class="second">
+          <p>©copyright - I_See_St4irs, 2016.</p>
+        </footer> -->
     </body>
 </html>

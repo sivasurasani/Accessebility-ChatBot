@@ -4,7 +4,7 @@ from werkzeug.exceptions import abort
 import json
 from excel_read import chatbot_response_1
 from chatbot_v3 import chatbot_response_v3
-from intent import chat_bot_response_v5
+#from intent import chat_bot_response_v5
 SESSION_TYPE = 'memcache'
 
 app = Flask(__name__)
@@ -214,12 +214,12 @@ def get_response():
         user_output = {"msg" : "access denied"}
         return jsonify(user_output), 200
     if(user_token == 940543678):
-        user_data =  chatbot_response_v3(user_input) 
+        user_data =  chatbot_response_v3(user_input)
         return jsonify(user_data), 200
     else :
         user_output = { "msg" : "api key not found"}
         return jsonify(user_output)
-    
+
 
 
 @app.route("/get-intent-response",methods=['GET', 'POST'])
