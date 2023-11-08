@@ -28,18 +28,21 @@ def chatbot_response_v3(user_input):
         user_vector = tfidf_vectorizer.transform([user_input])
         cosine_similarities = cosine_similarity(user_vector, tfidf_matrix)
         best_match_index = cosine_similarities.argmax()
-        matching_percentage = cosine_similarities[0][best_match_index] * 100
         response = data.loc[best_match_index, 'Answers']
         if(':' in response):
             response_split = response.split(":", 1)
             response = response_split[1]
-        if(matching_percentage > 0.5):
+        if((cosine_similarities[0][best_match_index] * 100) > 0.5):
             output = {
                 "response" : response
             }
         else:
-            output = {
-                "response" : "I don't understand that!"
-            }
-   
+           return extractCommonMessage()
+    return output
+
+
+def extractCommonMessage():
+    output = {
+        "response" : "I don't Undestand that!"
+    }
     return output
