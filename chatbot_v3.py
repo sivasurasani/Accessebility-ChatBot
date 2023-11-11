@@ -3,7 +3,7 @@ import sklearn
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-data = pd.read_excel("Accessibility_500.xlsx")
+data = pd.read_excel("web_accessibility_data.xlsx")
 data = data.dropna(subset=['Questions'])
 data['Questions'] = data['Questions'].str.lower()
 tfidf_vectorizer = TfidfVectorizer()
@@ -34,7 +34,7 @@ def chatbot_response_v3(user_input):
             response = response_split[1]
         if((cosine_similarities[0][best_match_index] * 100) > 0.5):
             output = {
-                "response" : response
+                "response" : response.strip()
             }
         else:
            return extractCommonMessage()
