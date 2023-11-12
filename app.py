@@ -4,7 +4,7 @@ from werkzeug.exceptions import abort
 import json
 from excel_read import chatbot_response_1
 from chatbot_v3 import chatbot_response_v3
-#from intent import chat_bot_response_v5
+# from intent import chat_bot_response_v5
 SESSION_TYPE = 'memcache'
 
 app = Flask(__name__)
@@ -206,16 +206,20 @@ def updateProduct():
 
 @app.route("/get-response",methods=['GET', 'POST'])
 def get_response():
-    input = request.json
-    user_input = input['input']
-    if('API_KEY' in input):
-        user_token = input['API_KEY']
+    user_input = request.json
+    user_query = user_input['input']
+    if(user_query is None or user_query == ''):
+        user_output = {"msg" : "Input cannot be Empty"}
+        return jsonify(user_output), 200
+    if('API_KEY' in user_input):
+        user_token = user_input['API_KEY']
     else:
         user_output = {"msg" : "access denied"}
         return jsonify(user_output), 200
     if(user_token == 940543678):
-        user_data =  chatbot_response_v3(user_input)
-        return jsonify(user_data), 200
+        user_data =  chatbot_response_v3(user_query) 
+        response = {'code' : 200, 'response' : user_data['response']}
+        return jsonify(response), 200
     else :
         user_output = { "msg" : "api key not found"}
         return jsonify(user_output)
@@ -226,8 +230,9 @@ def get_response():
 def get_intent_response():
     input = request.json
     user_input = input['input']
-    user_data =  chat_bot_response_v5(user_input)
-    return jsonify(user_data), 200
+    # user_data =  chat_bot_response_v5(user_input)
+    user_data = jsonify(user_data)
+    return user_data, 200
 if __name__  == "__main__":
     app.secret_key = 'super secret key'
     app.config["SECRET_KEY"] = 'super secret key'
