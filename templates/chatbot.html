@@ -128,9 +128,9 @@
                   alert('Please provide input for querying Accessibility');
                   apiCal = true;
                   console.log("apiCal:"+apiCal);
-                  $(document).ready(function(){
-                  location.reload(true);
-                    });
+                  //$(document).ready(function(){
+                  //location.reload(true);
+                    //});
                 }else{
                   apiCal = false;
                   console.log("apiCal:"+apiCal);
@@ -168,7 +168,7 @@
                 //} catch (error) {
                 //    console.log(error);
                 //}
-            });
+            $});
 
 
             $('#chatbot-form').submit(function(e) {
@@ -181,6 +181,9 @@
                         //console.log(inputString);
                         const data = {input : message,API_KEY : 940543678};
                         //print(data);
+                        console.log("before api method call:"+apiCal);
+                        console.log("message :"+message);
+                        apiCal = false;
                         if(!apiCal){
                         $.ajax({
                             type: "POST",
@@ -203,9 +206,7 @@
                       }
                     }
                     else{
-                        //var message = $('#messageText').val();
-                        var message = "Input is null.!";
-                        $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "text-align:right; color : #2EFE2E" class="media-body">' + message + '<hr/></div></div></div></li>');
+                      apiCal = false;
                       }
                     });
 
