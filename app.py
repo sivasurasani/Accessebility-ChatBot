@@ -4,7 +4,7 @@ from werkzeug.exceptions import abort
 import json
 from excel_read import chatbot_response_1
 from chatbot_v3 import chatbot_response_v3
-# from intent import chat_bot_response_v5
+from run import generate_answer
 SESSION_TYPE = 'memcache'
 
 app = Flask(__name__)
@@ -226,13 +226,13 @@ def get_response():
 
 
 
-@app.route("/get-intent-response",methods=['GET', 'POST'])
-def get_intent_response():
+@app.route("/get-model-answer", methods=['GET', 'POST'])
+def get_model_answer():
     input = request.json
     user_input = input['input']
-    # user_data =  chat_bot_response_v5(user_input)
-    user_data = jsonify(user_data)
-    return user_data, 200
+    response = generate_answer(user_input)
+    response = jsonify(response)
+    return response, 200
 if __name__  == "__main__":
     app.secret_key = 'super secret key'
     app.config["SECRET_KEY"] = 'super secret key'
