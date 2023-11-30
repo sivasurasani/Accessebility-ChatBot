@@ -3,7 +3,7 @@ import sklearn
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-data = pd.read_excel("web_accessibility_data.xlsx")
+data = pd.read_excel("Accessibility_500.xlsx")
 data = data.dropna(subset=['Questions'])
 data['Questions'] = data['Questions'].str.lower()
 tfidf_vectorizer = TfidfVectorizer()

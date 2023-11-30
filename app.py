@@ -2,9 +2,8 @@ import sqlite3
 from flask import Flask, request, jsonify, render_template, url_for, flash, redirect
 from werkzeug.exceptions import abort
 import json
-#from excel_read import chatbot_response_1
-#from chatbot_v3 import chatbot_response_v3
-# from intent import chat_bot_response_v5
+from excel_read import chatbot_response_1
+from chatbot_v3 import chatbot_response_v3
 SESSION_TYPE = 'memcache'
 
 app = Flask(__name__)
@@ -53,6 +52,14 @@ def profile():
 def home():
     return render_template('home.html')
 
+@app.route("/rule-based")
+def rule():
+    return render_template('home3.html')
+
+@app.route("/AI")
+def AI():
+    return render_template('home2.html')
+
 @app.route("/about")
 def about():
     return render_template('about.html')
@@ -60,6 +67,10 @@ def about():
 @app.route("/chatbot")
 def chatbot():
     return render_template('chatbot.html')
+
+@app.route("/chatbot2")
+def chatbot2():
+    return render_template('chatbot2.html')
 
 @app.route("/products")
 def products():
@@ -223,16 +234,8 @@ def get_response():
     else :
         user_output = { "msg" : "api key not found"}
         return jsonify(user_output)
+    
 
-
-
-@app.route("/get-intent-response",methods=['GET', 'POST'])
-def get_intent_response():
-    input = request.json
-    user_input = input['input']
-    # user_data =  chat_bot_response_v5(user_input)
-    user_data = jsonify(user_data)
-    return user_data, 200
 if __name__  == "__main__":
     app.secret_key = 'super secret key'
     app.config["SECRET_KEY"] = 'super secret key'

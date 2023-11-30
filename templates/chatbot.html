@@ -197,7 +197,7 @@
                 e.preventDefault();
                 if($.trim($('#messageText').val()) != ''){
                   var message = $('#messageText').val();
-                        $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "text-align:right; color : #2EFE2E" class="media-body">' + message + '<hr/></div></div></div></li>');
+                  $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "text-align:left; color : #2EFE2E" class="media-body"> <i class="fa fa-user"></i> ' + message + '</div></div></div></li>');
 
                         //var inputString = {input : message};
                         //console.log(inputString);
@@ -219,7 +219,7 @@
                                 $('#messageText').val('');
                                 var answer = response.response;
                                 const chatPanel = document.getElementById("chatPanel");
-                                $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "color : white" class="media-body">' + answer + '<hr/></div></div></div></li>');
+                                $(".media-list").append('<li class="media"><div class="media-body"><div class="media"><div style = "color : white" class="media-body"> <i class="fa fa-comment"></i> ' + answer + '</div></div></div></li>');
                             },
                             error: function(error) {
                                 console.log(error);
